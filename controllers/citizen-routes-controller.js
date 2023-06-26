@@ -7,7 +7,7 @@ const getAll = async (req, res, next) => {
         const error = new Error(' Could not find Users, try again later. ', 400);
         next(error);
     }
-
+    res.json({ message: "all okay. 3 am" });
 };
 const loginOne = async (req, res, next) => {
     const { name, email, password } = req.body();
@@ -25,6 +25,7 @@ const loginOne = async (req, res, next) => {
     existingUser.password = 0;
     existingUser.email = 0;
     res.status(200).json({ LoginFound: existingUser });
+    res.json({ message: "all okay. 4 am. " });
 }
 
 
