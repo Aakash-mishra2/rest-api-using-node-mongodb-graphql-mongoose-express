@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema();
 
-const listSchema = new Schema({
+const listSchema = new mongoose.Schema({
     items: [
         {
             type: Array,
@@ -14,6 +13,7 @@ const listSchema = new Schema({
         ref: 'User'
     }
 });
-
+//fill in listGenerateAt by js date() construtor inside controllers. 
+//List.listGeneratedAt instanceof Date;
 module.exports = mongoose.model('List', listSchema);
 

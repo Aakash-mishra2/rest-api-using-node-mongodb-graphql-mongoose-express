@@ -9,19 +9,12 @@ app.use(express.json());
 
 const PORT = process.env.PORT || 5000;
 
-const dataString = process.env.DATABASE_URL;
-mongoose.connect(dataString);
-const database = mongoose.connection();
-database.on('error', () => {
-    console.log(error);
-})
-database.once('connected', () => {
-    console.log("database - connected");
-})
 
 
 const publicRoutes = require('./routes/public-routes');
+const adminRoutes = require('./routes/admin-routes');
 app.use('/public', publicRoutes);
+app.use('/admin', adminRoutes);
 
 //only runs incase of no response from controllers - 
 app.use((req, res, next) => {
@@ -39,6 +32,11 @@ app.use((error, req, res, next) => {
     res.json({ message: error.message || 'An unknown error occured!' });
 })
 
-app.listen(PORT, () => {
-    console.log("Server started at 5000");
-})
+mongoose
+    .connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.kfazawl.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`)
+    .then(() => {
+        app.listen(PORT, function () { console.log('Server started on port 5000.') });
+    })
+    .catch(err => {
+        console.log(err);
+    });
