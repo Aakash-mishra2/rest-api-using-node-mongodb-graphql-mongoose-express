@@ -38,10 +38,10 @@ const createNewList = async (req, res, next) => {
         console.log(errors);
         throw new HttpError('Invalid Input passed, please check your data. ', 404);
     }
-    const { items, email } = req.body();
+    const { items, email } = req.body;
     let user;
     try {
-        const user = await Person.findOne({ email: email }, '-password -name');
+        user = await Person.findOne({ email: req.body.email }, '-password -name');
     } catch (err) {
         const error = new HttpError(' An unknown error occured, please try again. ', 400)
     }
@@ -53,8 +53,10 @@ const createNewList = async (req, res, next) => {
     let newList;
     newList = new List({
         items,
+        listGeneratedAt: new Date(),
         customer: user._id
     });
+
     let sess;
     try {
         sess = await mongoose.startSession();

@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const listSchema = new mongoose.Schema({
     items: [
         {
-            type: Array,
+            type: String,
             default: []
         }],
     listGeneratedAt: Date,
