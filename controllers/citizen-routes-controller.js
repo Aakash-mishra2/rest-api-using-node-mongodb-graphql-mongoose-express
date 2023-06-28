@@ -1,4 +1,5 @@
 const { default: mongoose } = require('mongoose');
+const { validationResult } = require('express-validator');
 const HttpError = require('../models/httpError');
 const Error = require('../models/httpError');
 const List = require('../models/list');
@@ -32,8 +33,11 @@ const login = async (req, res, next) => {
 }
 const createNewList = async (req, res, next) => {
 
-
-
+    const errors = validationResult(req);
+    if (!errors.isEmpty) {
+        console.log(errors);
+        throw new HttpError('Invalid Input passed, please check your data. ', 404);
+    }
     const { items, email } = req.body();
     let user;
     try {
@@ -65,8 +69,8 @@ const createNewList = async (req, res, next) => {
         const error = " Add new list session failed, try again later. ";
         return next(error);
     }
-
-    res.status(200).json({ newList: newList.items });
+    console.log(user);
+    res.status(200).json({ message: "success", newList: newList.items });
 }
 exports.createNewList = createNewList;
 exports.getAll = getAll;
