@@ -3,7 +3,7 @@ const router = express.Router();
 const citizen = require('../controllers/citizen-routes-controller');
 const { check } = require('express-validator');
 
-router.get('/get', citizen.getAll);
+router.get('/:cid/getlist', citizen.getAllLists);
 router.post('/newList', citizen.createNewList);
 router.post('/login',
     [

@@ -9,8 +9,6 @@ app.use(express.json());
 
 const PORT = process.env.PORT || 5000;
 
-
-
 const publicRoutes = require('./routes/public-routes');
 const adminRoutes = require('./routes/admin-routes');
 app.use('/public', publicRoutes);

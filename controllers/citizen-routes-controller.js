@@ -4,32 +4,42 @@ const HttpError = require('../models/httpError');
 const Error = require('../models/httpError');
 const List = require('../models/list');
 const Person = require('../models/user');
-const getAll = async (req, res, next) => {
+const getAllLists = async (req, res, next) => {
+    const userID = req.params.cid;
+    let requestedUser;
     try {
-        //fetch all users from database 
+        requestedUser = await Person.findById(userID).populate('lists', " items ");
+
     } catch (err) {
-        const error = new Error(' Could not find Users, try again later. ', 400);
+        const error = new Error(' Could not find lists, try again later. ', 400);
         next(error);
     }
-    res.json({ message: "all okay. 3 am" });
+    console.log(requestedUser);
+    if (!requestedUser || requestedUser.lists.length === 0) { return next(new HttpError('No lists for this user found. Create one. ', 400)) };
+    res.json({ foundLists: requestedUser.lists.map(item => item.toObject({ getters: true })) });
 };
 const login = async (req, res, next) => {
-    const { name, email, password } = req.body();
 
+    const errors = validationResult(req);
+    if (!errors.isEmpty) {
+        console.log(errors);
+        throw new HttpError('Invaid credentials could not log you in', 400);
+    }
+    let existingUser;
     try {
-        //search for existing user with matching credentials
+        existingUser = await Person.findOne({ email: req.body.email });
     } catch (err) {
         const error = new Error('Login failed for now, try later. ', 400);
         return next(error);
     }
-    if (!existingUser || existingUser.password != password) {
+
+    if (!existingUser || existingUser.password !== req.body.password) {
         const error = new Error('Invalid credentials, could not log in. ', 400);
         return next(error);
     }
     existingUser.password = 0;
     existingUser.email = 0;
     res.status(200).json({ LoginFound: existingUser });
-    res.json({ message: "all okay. 4 am. " });
 }
 const createNewList = async (req, res, next) => {
 
@@ -75,5 +85,5 @@ const createNewList = async (req, res, next) => {
     res.status(200).json({ message: "success", newList: newList.items });
 }
 exports.createNewList = createNewList;
-exports.getAll = getAll;
+exports.getAllLists = getAllLists;
 exports.login = login;
