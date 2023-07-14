@@ -7,7 +7,7 @@ router.get('/:cid/getlist', citizen.getAllLists);
 router.post('/newList', citizen.createNewList);
 router.post('/login',
     [
-        check('items').not().isEmpty(),
+        check('password').not().isEmpty(),
         check('email').normalizeEmail().isEmail(),
     ]
     , citizen.login);
