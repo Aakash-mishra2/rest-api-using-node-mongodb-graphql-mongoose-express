@@ -17,12 +17,12 @@ const userSchema = new mongoose.Schema({
     },
     image: {
         type: String,
+        default: 'I am new here!',
         required: false
     },
     lists: [
         {
             type: mongoose.Types.ObjectId,
-            required: true,
             ref: 'List'
         }
     ],

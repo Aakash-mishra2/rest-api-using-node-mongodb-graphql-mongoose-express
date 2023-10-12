@@ -1,4 +1,4 @@
-const User = require('../models/user');
+const User = require('../models/creator');
 const bcrypt = require('bcryptjs');
 
 module.exports = {
@@ -15,7 +15,7 @@ module.exports = {
             name: userInput.name,
             password: haspav
         });
-        const createdUser = await User.save();
+        const createdUser = await user.save();
             return { ...createdUser._doc, _id: createdUser._id.toString()};        
     }
 };
