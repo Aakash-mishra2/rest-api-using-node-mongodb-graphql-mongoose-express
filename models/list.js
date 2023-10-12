@@ -4,7 +4,8 @@ const listSchema = new mongoose.Schema({
     items: [
         {
             type: String,
-            default: []
+            default: [],
+            required: true
         }],
     listGeneratedAt: Date,
     customer: {
