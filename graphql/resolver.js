@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 module.exports = {
     createUser: async function({ userInput }, req) {
         //const email = args.userInput.email;
-        const existingUser = await User.findOne({email : userInput.email}, "-password -")
+        const existingUser = await User.findOne({email : userInput.email});
         if(existingUser){
             const error = new Error("User exists already!", 400);
             return next(error);
@@ -15,7 +15,7 @@ module.exports = {
             name: userInput.name,
             password: haspav
         });
-        const createdUser = await user.save();
+        const createdUser = await User.save();
             return { ...createdUser._doc, _id: createdUser._id.toString()};        
     }
 };

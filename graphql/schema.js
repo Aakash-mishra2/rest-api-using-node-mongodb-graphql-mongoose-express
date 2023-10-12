@@ -1,22 +1,17 @@
 const { buildSchema } = require('graphql');
-
 module.exports = buildSchema(` 
-type Post {
-    _id: ID!
-    title: String!
-    content: String!
-    inputUrl: String!
-    creator: User!
-    createdAt: String!
-    updatedAt: String!
+type List {
+    items: [String]
+    listGeneratedAt: String
+    customer: String
 }
 type User {
     _id: ID!
     name: String!
     email: String!
     password: String
-    status: String
-    posts: [Post!]!
+    image: String
+    lists: [List]
 }    
 input userData {
         email: String!
