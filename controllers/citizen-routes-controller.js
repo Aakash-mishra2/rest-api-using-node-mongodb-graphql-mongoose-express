@@ -25,7 +25,6 @@ const getAllLists = async (req, res, next) => {
     });
 }
 const createNewList = async (req, res, next) => {
-
     let myUser;
     try {
         myUser = await Citizen.findById(req.body.userID);

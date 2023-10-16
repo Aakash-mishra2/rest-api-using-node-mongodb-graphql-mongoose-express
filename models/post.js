@@ -5,10 +5,12 @@ const postSchema = new Schema(
   {
     title: {
       type: String,
-      required: true
+      required: true,
+      unique: true
     },
     imageUrl: {
       type: String,
+      default: 'I am new here',
       required: true
     },
     content: {
