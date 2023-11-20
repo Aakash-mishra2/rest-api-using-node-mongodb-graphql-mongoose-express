@@ -16,10 +16,10 @@ const adminRoutes = require('./routes/admin-routes');
 app.use('/public', publicRoutes);
 app.use('/admin', adminRoutes);
 
+//SETTING UP GRAPHQL END POINT
 const graphqlSchema = require('./graphql/schema');
 const graphqlResolver = require('./graphql/resolver');
 
-//SETTING UP GRAPHQL END POINT
 app.use('/graphql', graphqlHTTP({
     schema: graphqlSchema,
     rootValue: graphqlResolver, 
@@ -34,6 +34,7 @@ app.use('/graphql', graphqlHTTP({
         return { message: message, status: code, data: data }
     }
 }));
+
 
 //only runs incase of no response from controllers - 
 app.use((req, res, next) => {
